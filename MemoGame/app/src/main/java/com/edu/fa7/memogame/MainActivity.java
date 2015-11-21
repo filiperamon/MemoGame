@@ -1,14 +1,17 @@
 package com.edu.fa7.memogame;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private Chronometer chronometer;
     private TextView tvScores;
     private boolean isInit = true;
-
 
 
     @Override
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         colors.add(Color.YELLOW);
         colors.add(Color.DKGRAY);
 
-        setButtonImageValue();
+        setDefaultButtonImageValue();
 
     }
 
@@ -141,79 +143,81 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick(View view) {
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void onClick(final View view) {
         if (totalAcertos==0 && isInit){
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.start();
             isInit = false;
         }
+        Animation animator = AnimationUtils.loadAnimation(this, R.anim.to_midle);
+        view.setAnimation(animator);
+        view.startAnimation(animator);
+
+
         switch (view.getId()){
             case R.id.btn_image_0x0:
-                view.setBackgroundColor(colors.get(0));
-                verifierColorButton(colors.get(0), view);
+
+                animationButton(view, colors.get(0));
                 break;
             case R.id.btn_image_0x1:
-                view.setBackgroundColor(colors.get(1));
-                verifierColorButton(colors.get(1), view);
+                animationButton(view, colors.get(1));
                 break;
             case R.id.btn_image_0x2:
-                view.setBackgroundColor(colors.get(2));
-                verifierColorButton(colors.get(2), view);
+                animationButton(view, colors.get(2));
                 break;
             case R.id.btn_image_0x3:
-                view.setBackgroundColor(colors.get(3));
-                verifierColorButton(colors.get(3), view);
+                animationButton(view, colors.get(3));
                 break;
             case R.id.btn_image_1x0:
-                view.setBackgroundColor(colors.get(4));
-                verifierColorButton(colors.get(4), view);
+                animationButton(view, colors.get(4));
                 break;
             case R.id.btn_image_1x1:
-                view.setBackgroundColor(colors.get(5));
-                verifierColorButton(colors.get(5), view);
+                animationButton(view, colors.get(5));
                 break;
             case R.id.btn_image_1x2:
-                view.setBackgroundColor(colors.get(6));
-                verifierColorButton(colors.get(6), view);
+                animationButton(view, colors.get(6));
                 break;
             case R.id.btn_image_1x3:
-                view.setBackgroundColor(colors.get(7));
-                verifierColorButton(colors.get(7), view);
+                animationButton(view, colors.get(7));
                 break;
             case R.id.btn_image_2x0:
-                view.setBackgroundColor(colors.get(8));
-                verifierColorButton(colors.get(8), view);
+                animationButton(view, colors.get(8));
                 break;
             case R.id.btn_image_2x1:
-                view.setBackgroundColor(colors.get(9));
-                verifierColorButton(colors.get(9), view);
+                animationButton(view, colors.get(9));
                 break;
             case R.id.btn_image_2x2:
-                view.setBackgroundColor(colors.get(10));
-                verifierColorButton(colors.get(10), view);
+                animationButton(view, colors.get(10));
                 break;
             case R.id.btn_image_2x3:
-                view.setBackgroundColor(colors.get(11));
-                verifierColorButton(colors.get(11), view);
+                animationButton(view, colors.get(11));
                 break;
             case R.id.btn_image_3x0:
-                view.setBackgroundColor(colors.get(12));
-                verifierColorButton(colors.get(12), view);
+                animationButton(view, colors.get(12));
                 break;
             case R.id.btn_image_3x1:
-                view.setBackgroundColor(colors.get(13));
-                verifierColorButton(colors.get(13), view);
+                animationButton(view, colors.get(13));
                 break;
             case R.id.btn_image_3x2:
-                view.setBackgroundColor(colors.get(14));
-                verifierColorButton(colors.get(14), view);
+                animationButton(view, colors.get(14));
                 break;
             case R.id.btn_image_3x3:
-                view.setBackgroundColor(colors.get(15));
-                verifierColorButton(colors.get(15), view);
+                animationButton(view, colors.get(15));
                 break;
         }
 
+    }
+
+    private void animationButton(final View view, final int color) {
+        Handler handler = new Handler(getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setBackgroundColor(color);
+                verifierColorButton(color, view);
+            }
+        }, 300);
     }
 
     public void verifierColorButton(int color, final View v){
@@ -231,8 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 totalAcertos +=2;
                 if (endGame()){
                     Toast.makeText(getApplicationContext(),"venceu", Toast.LENGTH_SHORT).show();
-
-                    setButtonImageValue();
+                    setDefaultButtonImageValue();
                     changeStatusViewButton(true);
                     long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
                     chronometer.setBase(SystemClock.elapsedRealtime());
@@ -253,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
                         v.setBackgroundColor(Color.GRAY);
                         changeStatusViewButton(true);
                         view.setClickable(true);
+                     //   animationButton(view, Color.GRAY);
+                     //   animationButton(v, Color.GRAY);
                     }
                 }, 200);
                 countClick1 = -1;
@@ -261,14 +266,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setButtonImageValue(){
+    public void setDefaultButtonImageValue(){
         Collections.shuffle(colors);
-        for (int item:imageIds){
-            ImageButton btnDefault = (ImageButton) findViewById(item);
-            btnDefault.setBackgroundColor(Color.GRAY);
-            btnDefault.setClickable(true);
-            totalAcertos = 0;
+
+        for (int item = 0; item < colors.size(); item++){
+            ImageButton btnDefault = (ImageButton) findViewById(imageIds[item]);
+            btnDefault.setBackgroundColor(colors.get(item));
+            btnDefault.setClickable(false);
         }
+
+        Handler handler = new Handler(getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int item:imageIds){
+                    ImageButton btnDefault = (ImageButton) findViewById(item);
+                    btnDefault.setBackgroundColor(Color.GRAY);
+                    btnDefault.setClickable(true);
+                    totalAcertos = 0;
+                }
+            }
+        },2000);
+
+
     }
 
     public void changeStatusViewButton(Boolean status){

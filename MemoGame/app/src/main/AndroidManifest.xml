@@ -8,9 +8,14 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:screenOrientation="nosensor"
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="nosensor" >
+        </activity>
+        <activity
+            android:name=".MainSreen"
+            android:label="@string/title_activity_main_sreen"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main_sreen">MainSreen</string>
+
+    <string name="action_start_game">Jogar</string>
+    <string name="action_options">Opções</string>
 </resources>
