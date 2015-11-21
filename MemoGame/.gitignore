@@ -4,8 +4,6 @@
 /.idea/libraries
 MemoGame/.idea/
 MemoGame/MemoGame.iml
-MemoGame/gradle/
-MemoGame/gradlew
 MemoGame/gradlew.bat
 MemoGame/settings.gradle
 .DS_Store
