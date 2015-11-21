@@ -1,6 +1,8 @@
 package com.edu.fa7.memogame;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -233,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 view.setClickable(false);
                 v.setClickable(false);
                 totalAcertos +=2;
-                if (endGame()){
+                if (isEndGame()){
                     Toast.makeText(getApplicationContext(),"venceu", Toast.LENGTH_SHORT).show();
                     setDefaultButtonImageValue();
                     changeStatusViewButton(true);
@@ -244,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
                     tvScores.setText(String.valueOf(elapsedMillis));
                     isInit = true;
+                    showFinishDialog();
 
                 }
             }else {
@@ -256,8 +259,6 @@ public class MainActivity extends AppCompatActivity {
                         v.setBackgroundColor(Color.GRAY);
                         changeStatusViewButton(true);
                         view.setClickable(true);
-                     //   animationButton(view, Color.GRAY);
-                     //   animationButton(v, Color.GRAY);
                     }
                 }, 200);
                 countClick1 = -1;
@@ -298,11 +299,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean endGame(){
-        if (totalAcertos == gridLayout.getRowCount()* gridLayout.getColumnCount()){
+    public boolean isEndGame(){
+     /*   if (totalAcertos == gridLayout.getRowCount()* gridLayout.getColumnCount()){
             return true;
         }else {
             return false;
-        }
+        }*/
+        return true;
+    }
+
+    public void showFinishDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Reiniciar Jogo?");
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setDefaultButtonImageValue();
+            }
+        });
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
     }
 }
