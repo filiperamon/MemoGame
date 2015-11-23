@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int totalAcertos = 0;
     private boolean isInit = true;
     private int tamanhoTabuleiro = 0; //16,20, 24;
+    private String tipoDeJogo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
         displaySharedPreferences();
 
-        imagens = setTimes();
+        if (tipoDeJogo.equals("times")){
+            imagens = setTimes();
+        }else{
+            imagens = setCarros();
+        }
 
         setDefaultButtonImageValue();
     }
@@ -344,8 +349,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void displaySharedPreferences(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String tabuleiro = prefs.getString("listboard","Default Board");
+        String tabuleiro = prefs.getString("listboard", "16");
+        String game = prefs.getString("listgame", "times");
         tamanhoTabuleiro = Integer.valueOf(tabuleiro);
+        tipoDeJogo = game;
     }
 
     public ArrayList <Integer> setImags() {
@@ -430,6 +437,53 @@ public class MainActivity extends AppCompatActivity {
                 imags.add(R.drawable.fortaleza);
                 imags.add(R.drawable.ceara);
                 imags.add(R.drawable.ceara);
+
+                imBtn50.setVisibility(View.VISIBLE);
+                imBtn51.setVisibility(View.VISIBLE);
+                imBtn52.setVisibility(View.VISIBLE);
+                imBtn53.setVisibility(View.VISIBLE);
+            }
+        }
+
+        return imags;
+    }
+
+    public ArrayList <Integer> setCarros() {
+        ArrayList<Integer> imags = new ArrayList<>();
+
+        imags.add(R.drawable.lamborghini);
+        imags.add(R.drawable.lamborghini);
+        imags.add(R.drawable.ferrari);
+        imags.add(R.drawable.ferrari);
+        imags.add(R.drawable.bmw);
+        imags.add(R.drawable.bmw);
+        imags.add(R.drawable.mercedes);
+        imags.add(R.drawable.mercedes);
+        imags.add(R.drawable.bugatti);
+        imags.add(R.drawable.bugatti);
+        imags.add(R.drawable.jaguar);
+        imags.add(R.drawable.jaguar);
+        imags.add(R.drawable.alfa_romeo);
+        imags.add(R.drawable.alfa_romeo);
+        imags.add(R.drawable.infiniti);
+        imags.add(R.drawable.infiniti);
+
+        if(tamanhoTabuleiro > 16){
+            imags.add(R.drawable.mustang);
+            imags.add(R.drawable.mustang);
+            imags.add(R.drawable.porshe);
+            imags.add(R.drawable.porshe);
+
+            imBtn40.setVisibility(View.VISIBLE);
+            imBtn41.setVisibility(View.VISIBLE);
+            imBtn42.setVisibility(View.VISIBLE);
+            imBtn43.setVisibility(View.VISIBLE);
+
+            if(tamanhoTabuleiro > 20){
+                imags.add(R.drawable.lambgallardo);
+                imags.add(R.drawable.lambgallardo);
+                imags.add(R.drawable.pagani);
+                imags.add(R.drawable.pagani);
 
                 imBtn50.setVisibility(View.VISIBLE);
                 imBtn51.setVisibility(View.VISIBLE);
