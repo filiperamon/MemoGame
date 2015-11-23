@@ -108,10 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         displaySharedPreferences();
 
-        imagens = setImags();
+        imagens = setTimes();
 
         setDefaultButtonImageValue();
-        
     }
 
      @Override
@@ -232,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                view.setBackgroundColor(color);
+                view.setBackgroundResource(color);
                 verifierColorButton(color, view);
             }
         }, 300);
@@ -290,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int item = 0; item < tamanhoTabuleiro; item++) {
             ImageButton btnDefault = (ImageButton) findViewById(imageIds[item]);
-            btnDefault.setBackgroundColor(imagens.get(item));
+            btnDefault.setBackgroundResource(imagens.get(item));
             btnDefault.setClickable(false);
         }
 
@@ -346,11 +345,10 @@ public class MainActivity extends AppCompatActivity {
     public void displaySharedPreferences(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String tabuleiro = prefs.getString("listboard","Default Board");
-    //    Toast.makeText(this,tabuleiro, Toast.LENGTH_SHORT).show();
         tamanhoTabuleiro = Integer.valueOf(tabuleiro);
     }
 
-    public ArrayList<Integer> setImags() {
+    public ArrayList <Integer> setImags() {
         ArrayList<Integer> imags = new ArrayList<>();
 
         imags.add(Color.BLACK);
@@ -386,6 +384,52 @@ public class MainActivity extends AppCompatActivity {
                 imags.add(Color.parseColor(getString(R.string.cor4)));
                 imags.add(Color.parseColor(getString(R.string.cor3)));
                 imags.add(Color.parseColor(getString(R.string.cor4)));
+
+                imBtn50.setVisibility(View.VISIBLE);
+                imBtn51.setVisibility(View.VISIBLE);
+                imBtn52.setVisibility(View.VISIBLE);
+                imBtn53.setVisibility(View.VISIBLE);
+            }
+        }
+        return imags;
+    }
+
+    public ArrayList <Integer> setTimes() {
+        ArrayList<Integer> imags = new ArrayList<>();
+
+        imags.add(R.drawable.saopaulo);
+        imags.add(R.drawable.saopaulo);
+        imags.add(R.drawable.atleticomg);
+        imags.add(R.drawable.atleticomg);
+        imags.add(R.drawable.botafogo);
+        imags.add(R.drawable.botafogo);
+        imags.add(R.drawable.curintia);
+        imags.add(R.drawable.curintia);
+        imags.add(R.drawable.fluminense);
+        imags.add(R.drawable.fluminense);
+        imags.add(R.drawable.vasco);
+        imags.add(R.drawable.vasco);
+        imags.add(R.drawable.inter);
+        imags.add(R.drawable.inter);
+        imags.add(R.drawable.santos);
+        imags.add(R.drawable.santos);
+
+        if(tamanhoTabuleiro > 16){
+            imags.add(R.drawable.palmeiras);
+            imags.add(R.drawable.cruzeiro);
+            imags.add(R.drawable.palmeiras);
+            imags.add(R.drawable.cruzeiro);
+
+            imBtn40.setVisibility(View.VISIBLE);
+            imBtn41.setVisibility(View.VISIBLE);
+            imBtn42.setVisibility(View.VISIBLE);
+            imBtn43.setVisibility(View.VISIBLE);
+
+            if(tamanhoTabuleiro > 20){
+                imags.add(R.drawable.fortaleza);
+                imags.add(R.drawable.fortaleza);
+                imags.add(R.drawable.ceara);
+                imags.add(R.drawable.ceara);
 
                 imBtn50.setVisibility(View.VISIBLE);
                 imBtn51.setVisibility(View.VISIBLE);
