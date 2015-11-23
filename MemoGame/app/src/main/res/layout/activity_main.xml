@@ -48,10 +48,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_info"
-        android:columnCount="4"
-        android:rowCount="4"
+        android:columnCount="6"
+        android:rowCount="6"
         android:columnOrderPreserved="true"
         android:useDefaultMargins="true">
+
+        <!--Coluna 1-->
 
         <ImageButton
             android:id="@+id/btn_image_0x0"
@@ -61,7 +63,6 @@
             android:layout_height="@dimen/size"
             android:onClick="onClick"
             android:clickable="true"
-            android:background="@android:color/holo_blue_bright"
             />
         <ImageButton
             android:id="@+id/btn_image_1x0"
@@ -87,6 +88,9 @@
             android:layout_height="@dimen/size"
             android:onClick="onClick"
             android:clickable="true"/>
+
+        <!--Coluna 2-->
+
         <ImageButton
             android:id="@+id/btn_image_0x1"
             android:layout_column="0"
@@ -119,6 +123,9 @@
             android:layout_height="@dimen/size"
             android:onClick="onClick"
             android:clickable="true"/>
+
+        <!--Coluna 3-->
+
         <ImageButton
             android:id="@+id/btn_image_0x2"
             android:layout_column="0"
@@ -151,6 +158,9 @@
             android:layout_height="@dimen/size"
             android:onClick="onClick"
             android:clickable="true"/>
+
+        <!--Coluna 4-->
+
         <ImageButton
             android:id="@+id/btn_image_0x3"
             android:layout_column="0"
@@ -183,6 +193,84 @@
             android:layout_height="@dimen/size"
             android:onClick="onClick"
             android:clickable="true"/>
+
+        <!--Coluna 5-->
+
+        <ImageButton
+            android:id="@+id/btn_image_4x0"
+            android:layout_column="0"
+            android:layout_row="4"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_image_4x1"
+            android:layout_column="1"
+            android:layout_row="4"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_image_4x2"
+            android:layout_column="2"
+            android:layout_row="4"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_image_4x3"
+            android:layout_column="3"
+            android:layout_row="4"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+
+        <!--Coluna 6-->
+
+        <ImageButton
+            android:id="@+id/btn_image_5x0"
+            android:layout_column="0"
+            android:layout_row="5"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_image_5x1"
+            android:layout_column="1"
+            android:layout_row="5"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_image_5x2"
+            android:layout_column="2"
+            android:layout_row="5"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_image_5x3"
+            android:layout_column="3"
+            android:layout_row="5"
+            android:layout_width="@dimen/size"
+            android:layout_height="@dimen/size"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:visibility="invisible"/>
     </GridLayout>
 
 </RelativeLayout>
