@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private View view;
     private int totalAcertos = 0;
     private boolean isInit = true;
-    private int tamanhoTabuleiro = 16; //16,20, 24;
+    private int tamanhoTabuleiro = 0; //16,20, 24;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 R.id.btn_image_5x3
         };
 
+        displaySharedPreferences();
+
         imagens = setImags();
 
         setDefaultButtonImageValue();
-
-        displaySharedPreferences();
-
+        
     }
 
      @Override
@@ -346,7 +346,8 @@ public class MainActivity extends AppCompatActivity {
     public void displaySharedPreferences(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String tabuleiro = prefs.getString("listboard","Default Board");
-        Toast.makeText(this,tabuleiro, Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(this,tabuleiro, Toast.LENGTH_SHORT).show();
+        tamanhoTabuleiro = Integer.valueOf(tabuleiro);
     }
 
     public ArrayList<Integer> setImags() {
