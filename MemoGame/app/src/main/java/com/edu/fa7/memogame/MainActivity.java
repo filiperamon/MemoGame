@@ -3,10 +3,12 @@ package com.edu.fa7.memogame;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,42 +27,31 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Chronometer chronometer;
+    private TextView tvScores;
     private GridLayout gridLayout;
-    private ImageButton imBtn00;
-    private ImageButton imBtn01;
-    private ImageButton imBtn02;
-    private ImageButton imBtn03;
-    private ImageButton imBtn10;
-    private ImageButton imBtn11;
-    private ImageButton imBtn12;
-    private ImageButton imBtn13;
-    private ImageButton imBtn20;
-    private ImageButton imBtn21;
-    private ImageButton imBtn22;
-    private ImageButton imBtn23;
-    private ImageButton imBtn30;
-    private ImageButton imBtn31;
-    private ImageButton imBtn32;
-    private ImageButton imBtn33;
+
+    private ImageButton imBtn00 ,imBtn01, imBtn02, imBtn03, imBtn10, imBtn11, imBtn12, imBtn13;
+    private ImageButton imBtn20 ,imBtn21, imBtn22, imBtn23, imBtn30, imBtn31, imBtn32, imBtn33;
+    private ImageButton imBtn40 ,imBtn41, imBtn42, imBtn43, imBtn50, imBtn51, imBtn52, imBtn53;
+
+    private ArrayList<Integer> imagens;
 
     private int[] imageIds;
-    private int[][] matriz;
-    private ArrayList<Integer> colors;
     private int countClick1 = -1;
     private int countClick2;
     private View view;
     private int totalAcertos = 0;
-    private Chronometer chronometer;
-    private TextView tvScores;
     private boolean isInit = true;
-
+    private int tamanhoTabuleiro = 0; //16,20, 24;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        tvScores = (TextView) findViewById(R.id.text_view_scores);
 
         gridLayout = (GridLayout) findViewById(R.id.grid_layout_tabuleiro);
         imBtn00 = (ImageButton) findViewById(R.id.btn_image_0x0);
@@ -79,8 +70,14 @@ public class MainActivity extends AppCompatActivity {
         imBtn31 = (ImageButton) findViewById(R.id.btn_image_3x1);
         imBtn32 = (ImageButton) findViewById(R.id.btn_image_3x2);
         imBtn33 = (ImageButton) findViewById(R.id.btn_image_3x3);
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
-        tvScores = (TextView) findViewById(R.id.text_view_scores);
+        imBtn40 = (ImageButton) findViewById(R.id.btn_image_4x0);
+        imBtn41 = (ImageButton) findViewById(R.id.btn_image_4x1);
+        imBtn42 = (ImageButton) findViewById(R.id.btn_image_4x2);
+        imBtn43 = (ImageButton) findViewById(R.id.btn_image_4x3);
+        imBtn50 = (ImageButton) findViewById(R.id.btn_image_5x0);
+        imBtn51 = (ImageButton) findViewById(R.id.btn_image_5x1);
+        imBtn52 = (ImageButton) findViewById(R.id.btn_image_5x2);
+        imBtn53 = (ImageButton) findViewById(R.id.btn_image_5x3);
 
         imageIds = new int[]{
                 R.id.btn_image_0x0,
@@ -98,32 +95,26 @@ public class MainActivity extends AppCompatActivity {
                 R.id.btn_image_3x0,
                 R.id.btn_image_3x1,
                 R.id.btn_image_3x2,
-                R.id.btn_image_3x3
+                R.id.btn_image_3x3,
+                R.id.btn_image_4x0,
+                R.id.btn_image_4x1,
+                R.id.btn_image_4x2,
+                R.id.btn_image_4x3,
+                R.id.btn_image_5x0,
+                R.id.btn_image_5x1,
+                R.id.btn_image_5x2,
+                R.id.btn_image_5x3
         };
 
-        colors = new ArrayList<>();
-        colors.add(Color.BLACK);
-        colors.add(Color.GREEN);
-        colors.add(Color.BLUE);
-        colors.add(Color.CYAN);
-        colors.add(Color.MAGENTA);
-        colors.add(Color.RED);
-        colors.add(Color.YELLOW);
-        colors.add(Color.DKGRAY);
-        colors.add(Color.BLACK);
-        colors.add(Color.GREEN);
-        colors.add(Color.BLUE);
-        colors.add(Color.CYAN);
-        colors.add(Color.MAGENTA);
-        colors.add(Color.RED);
-        colors.add(Color.YELLOW);
-        colors.add(Color.DKGRAY);
+        displaySharedPreferences();
+
+        imagens = setImags();
 
         setDefaultButtonImageValue();
-
+        
     }
 
-    @Override
+     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -159,53 +150,78 @@ public class MainActivity extends AppCompatActivity {
 
         switch (view.getId()){
             case R.id.btn_image_0x0:
-
-                animationButton(view, colors.get(0));
+                animationButton(view, imagens.get(0));
                 break;
             case R.id.btn_image_0x1:
-                animationButton(view, colors.get(1));
+                animationButton(view, imagens.get(1));
                 break;
             case R.id.btn_image_0x2:
-                animationButton(view, colors.get(2));
+                animationButton(view, imagens.get(2));
                 break;
             case R.id.btn_image_0x3:
-                animationButton(view, colors.get(3));
+                animationButton(view, imagens.get(3));
                 break;
             case R.id.btn_image_1x0:
-                animationButton(view, colors.get(4));
+                animationButton(view, imagens.get(4));
                 break;
             case R.id.btn_image_1x1:
-                animationButton(view, colors.get(5));
+                animationButton(view, imagens.get(5));
                 break;
             case R.id.btn_image_1x2:
-                animationButton(view, colors.get(6));
+                animationButton(view, imagens.get(6));
                 break;
             case R.id.btn_image_1x3:
-                animationButton(view, colors.get(7));
+                animationButton(view, imagens.get(7));
                 break;
             case R.id.btn_image_2x0:
-                animationButton(view, colors.get(8));
+                animationButton(view, imagens.get(8));
                 break;
             case R.id.btn_image_2x1:
-                animationButton(view, colors.get(9));
+                animationButton(view, imagens.get(9));
                 break;
             case R.id.btn_image_2x2:
-                animationButton(view, colors.get(10));
+                animationButton(view, imagens.get(10));
                 break;
             case R.id.btn_image_2x3:
-                animationButton(view, colors.get(11));
+                animationButton(view, imagens.get(11));
                 break;
             case R.id.btn_image_3x0:
-                animationButton(view, colors.get(12));
+                animationButton(view, imagens.get(12));
                 break;
             case R.id.btn_image_3x1:
-                animationButton(view, colors.get(13));
+                animationButton(view, imagens.get(13));
                 break;
             case R.id.btn_image_3x2:
-                animationButton(view, colors.get(14));
+                animationButton(view, imagens.get(14));
                 break;
             case R.id.btn_image_3x3:
-                animationButton(view, colors.get(15));
+                animationButton(view, imagens.get(15));
+                break;
+
+            case R.id.btn_image_4x0:
+                animationButton(view, imagens.get(16));
+                break;
+            case R.id.btn_image_4x1:
+                animationButton(view, imagens.get(17));
+                break;
+            case R.id.btn_image_4x2:
+                animationButton(view, imagens.get(18));
+                break;
+            case R.id.btn_image_4x3:
+                animationButton(view, imagens.get(19));
+                break;
+
+            case R.id.btn_image_5x0:
+                animationButton(view, imagens.get(20));
+                break;
+            case R.id.btn_image_5x1:
+                animationButton(view, imagens.get(21));
+                break;
+            case R.id.btn_image_5x2:
+                animationButton(view, imagens.get(22));
+                break;
+            case R.id.btn_image_5x3:
+                animationButton(view, imagens.get(23));
                 break;
         }
 
@@ -268,11 +284,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setDefaultButtonImageValue(){
-        Collections.shuffle(colors);
+        Collections.shuffle(imagens);
 
-        for (int item = 0; item < colors.size(); item++){
+        int i = 0;
+
+        for (int item = 0; item < tamanhoTabuleiro; item++) {
             ImageButton btnDefault = (ImageButton) findViewById(imageIds[item]);
-            btnDefault.setBackgroundColor(colors.get(item));
+            btnDefault.setBackgroundColor(imagens.get(item));
             btnDefault.setClickable(false);
         }
 
@@ -288,8 +306,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         },2000);
-
-
     }
 
     public void changeStatusViewButton(Boolean status){
@@ -300,12 +316,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean isEndGame(){
-     /*   if (totalAcertos == gridLayout.getRowCount()* gridLayout.getColumnCount()){
+        if (totalAcertos == tamanhoTabuleiro){
+
             return true;
         }else {
             return false;
-        }*/
-        return true;
+        }
     }
 
     public void showFinishDialog(){
@@ -325,7 +341,59 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
 
+    public void displaySharedPreferences(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String tabuleiro = prefs.getString("listboard","Default Board");
+    //    Toast.makeText(this,tabuleiro, Toast.LENGTH_SHORT).show();
+        tamanhoTabuleiro = Integer.valueOf(tabuleiro);
+    }
 
+    public ArrayList<Integer> setImags() {
+        ArrayList<Integer> imags = new ArrayList<>();
+
+        imags.add(Color.BLACK);
+        imags.add(Color.GREEN);
+        imags.add(Color.BLUE);
+        imags.add(Color.CYAN);
+        imags.add(Color.MAGENTA);
+        imags.add(Color.RED);
+        imags.add(Color.YELLOW);
+        imags.add(Color.DKGRAY);
+        imags.add(Color.BLACK);
+        imags.add(Color.GREEN);
+        imags.add(Color.BLUE);
+        imags.add(Color.CYAN);
+        imags.add(Color.MAGENTA);
+        imags.add(Color.RED);
+        imags.add(Color.YELLOW);
+        imags.add(Color.DKGRAY);
+
+        if(tamanhoTabuleiro > 16){
+            imags.add(Color.parseColor(getString(R.string.cor1)));
+            imags.add(Color.parseColor(getString(R.string.cor2)));
+            imags.add(Color.parseColor(getString(R.string.cor1)));
+            imags.add(Color.parseColor(getString(R.string.cor2)));
+
+            imBtn40.setVisibility(View.VISIBLE);
+            imBtn41.setVisibility(View.VISIBLE);
+            imBtn42.setVisibility(View.VISIBLE);
+            imBtn43.setVisibility(View.VISIBLE);
+
+            if(tamanhoTabuleiro > 20){
+                imags.add(Color.parseColor(getString(R.string.cor3)));
+                imags.add(Color.parseColor(getString(R.string.cor4)));
+                imags.add(Color.parseColor(getString(R.string.cor3)));
+                imags.add(Color.parseColor(getString(R.string.cor4)));
+
+                imBtn50.setVisibility(View.VISIBLE);
+                imBtn51.setVisibility(View.VISIBLE);
+                imBtn52.setVisibility(View.VISIBLE);
+                imBtn53.setVisibility(View.VISIBLE);
+            }
+        }
+
+        return imags;
     }
 }
