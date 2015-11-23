@@ -23,7 +23,7 @@ public class MainSreen extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                 startActivity(intent);
             }
         });
@@ -42,7 +42,7 @@ public class MainSreen extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_sreen, menu);
+        getMenuInflater().inflate(R.menu.menu_game_screen, menu);
         return true;
     }
 

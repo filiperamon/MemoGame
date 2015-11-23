@@ -14,6 +14,7 @@
     <string name="type_game_summary">Escolha o tipo de Jogo</string>
     <string name="board_game">Tabuleiro</string>
     <string name="board_game_summary">Escolha o tipo de tabuleiro</string>
+    <string name="st_records">Records</string>
 
 
     <!--colors-->

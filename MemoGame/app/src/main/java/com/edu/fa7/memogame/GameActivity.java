@@ -3,6 +3,7 @@ package com.edu.fa7.memogame;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -25,7 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     private Chronometer chronometer;
     private TextView tvScores;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isInit = true;
     private int tamanhoTabuleiro = 0; //16,20, 24;
     private String tipoDeJogo = "";
+    private Record mRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         tvScores = (TextView) findViewById(R.id.text_view_scores);
+        mRecord = new Record();
 
         gridLayout = (GridLayout) findViewById(R.id.grid_layout_tabuleiro);
         imBtn00 = (ImageButton) findViewById(R.id.btn_image_0x0);
@@ -120,21 +123,15 @@ public class MainActivity extends AppCompatActivity {
 
      @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_game_screen, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_view_record) {
+            startActivity(new Intent(GameActivity.this, ViewRecordActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -264,9 +261,13 @@ public class MainActivity extends AppCompatActivity {
                     chronometer.stop();
                     chronometer.setActivated(false);
 
+
                     tvScores.setText(String.valueOf(elapsedMillis));
                     isInit = true;
                     showFinishDialog();
+                    mRecord.setName("desconhecido");
+                    mRecord.setRecord(elapsedMillis);
+                    mRecord.save();
 
                 }
             }else {
@@ -335,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 setDefaultButtonImageValue();
+                mRecord = new Record();
             }
         });
         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {

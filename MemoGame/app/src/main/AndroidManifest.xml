@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.edu.fa7.memogame" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.edu.fa7.memogame">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="com.orm.SugarApp"
+        tools:replace="android:icon">
+
+        <meta-data android:name="DATABASE" android:value="record.db" />
+        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.edu.fa7.memogame" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".GameActivity"
             android:label="@string/app_name"
-            android:screenOrientation="nosensor" >
-        </activity>
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".MainSreen"
             android:label="@string/title_activity_main_sreen"
-            android:screenOrientation="nosensor" >
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,8 +32,8 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
+            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".ViewRecordActivity"/>
     </application>
 
 </manifest>
