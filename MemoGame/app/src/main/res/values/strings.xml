@@ -7,4 +7,10 @@
 
     <string name="action_start_game">Jogar</string>
     <string name="action_options">Opções</string>
+
+    <string name="title_activity_settings">Configurações</string>
+    <string name="type_game">Tipo de Jogo</string>
+    <string name="type_game_summary">Escolha o tipo de Jogo</string>
+    <string name="board_game">Tabuleiro</string>
+    <string name="board_game_summary">Escolha o tipo de tabuleiro</string>
 </resources>

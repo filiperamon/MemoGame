@@ -3,10 +3,12 @@ package com.edu.fa7.memogame;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -120,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         colors.add(Color.DKGRAY);
 
         setDefaultButtonImageValue();
+
+        displaySharedPreferences();
 
     }
 
@@ -300,12 +304,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean isEndGame(){
-     /*   if (totalAcertos == gridLayout.getRowCount()* gridLayout.getColumnCount()){
+        if (totalAcertos == gridLayout.getRowCount()* gridLayout.getColumnCount()){
             return true;
         }else {
             return false;
-        }*/
-        return true;
+        }
+    //    return true;
     }
 
     public void showFinishDialog(){
@@ -325,7 +329,11 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
 
-
+    public void displaySharedPreferences(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String tabuleiro = prefs.getString("listboard","Default Board");
+        Toast.makeText(this,tabuleiro, Toast.LENGTH_SHORT).show();
     }
 }
