@@ -1,4 +1,4 @@
-package com.edu.fa7.memogame;
+package com.edu.fa7.memogame.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,11 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-public class MainSreen extends AppCompatActivity {
+import com.edu.fa7.memogame.R;
+
+public class MainScreenActivity extends AppCompatActivity {
 
     private Button btnStart;
     private Button btnOption;
+    private EditText etPesonName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +24,19 @@ public class MainSreen extends AppCompatActivity {
 
         btnStart = (Button) findViewById(R.id.btn_iniciar);
         btnOption = (Button) findViewById(R.id.btn_opcoes);
+        etPesonName = (EditText) findViewById(R.id.personName);
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle parameter = new Bundle();
+                if(etPesonName.getText().toString().length()>0)
+                    parameter.putString(getString(R.string.personName),etPesonName.getText().toString());
+                else
+                    parameter.putString(getString(R.string.personName),getString(R.string.personName));
+
                 Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                intent.putExtras(parameter);
                 startActivity(intent);
             }
         });
@@ -35,8 +48,6 @@ public class MainSreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override
@@ -48,14 +59,8 @@ public class MainSreen extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (item.getItemId() == R.id.action_view_record) {
+            startActivity(new Intent(MainScreenActivity.this, ViewRecordActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

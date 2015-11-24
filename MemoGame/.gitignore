@@ -6,6 +6,8 @@ MemoGame/.idea/
 MemoGame/MemoGame.iml
 MemoGame/gradlew.bat
 MemoGame/settings.gradle
+MemoGame/.idea/gradle.xml
+MemoGame/app/app.iml
 .DS_Store
 /build
 /captures

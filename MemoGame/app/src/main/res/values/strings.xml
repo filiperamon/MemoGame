@@ -22,4 +22,10 @@
     <string name="cor2">#ff8000</string>
     <string name="cor3">#708090</string>
     <string name="cor4">#808000</string>
+    <string name="times">times</string>
+    <string name="carros">carros</string>
+    <string name="fim_de_jogo">Fim de jogo, deseja reiniciar Jogo?</string>
+    <string name="yes">sim</string>
+    <string name="no">não</string>
+    <string name="personName">Desconhecido</string>
 </resources>

@@ -17,11 +17,11 @@
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.edu.fa7.memogame" />
 
         <activity
-            android:name=".GameActivity"
+            android:name=".Activity.GameActivity"
             android:label="@string/app_name"
             android:screenOrientation="nosensor"/>
         <activity
-            android:name=".MainSreen"
+            android:name=".Activity.MainScreenActivity"
             android:label="@string/title_activity_main_sreen"
             android:screenOrientation="nosensor">
             <intent-filter>
@@ -31,9 +31,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Activity.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".ViewRecordActivity"/>
+        <activity android:name=".Activity.ViewRecordActivity"/>
     </application>
 
 </manifest>
