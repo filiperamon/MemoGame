@@ -1,4 +1,4 @@
-package com.edu.fa7.memogame;
+package com.edu.fa7.memogame.Activity;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -23,6 +23,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.fa7.memogame.R;
+import com.edu.fa7.memogame.Utils.Record;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -42,11 +45,12 @@ public class GameActivity extends AppCompatActivity {
     private int countClick1 = -1;
     private int countClick2;
     private View view;
-    private int totalAcertos = 0;
+    private int totalAcertos;
     private boolean isInit = true;
-    private int tamanhoTabuleiro = 0; //16,20, 24;
+    protected int tamanhoTabuleiro;
     private String tipoDeJogo = "";
     private Record mRecord;
+    private long elapsedMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         tvScores = (TextView) findViewById(R.id.text_view_scores);
         mRecord = new Record();
+        mRecord.setName(getIntent().getExtras().getString(getString(R.string.personName)));
 
         gridLayout = (GridLayout) findViewById(R.id.grid_layout_tabuleiro);
         imBtn00 = (ImageButton) findViewById(R.id.btn_image_0x0);
@@ -111,17 +116,21 @@ public class GameActivity extends AppCompatActivity {
         };
 
         displaySharedPreferences();
-
-        if (tipoDeJogo.equals("times")){
-            imagens = setTimes();
-        }else{
-            imagens = setCarros();
-        }
-
+        setImagensTabuleiro();
         setDefaultButtonImageValue();
     }
 
-     @Override
+    private void setImagensTabuleiro() {
+        if (tipoDeJogo.equals(getString(R.string.times))) {
+            imagens = setTimes();
+        }else if(tipoDeJogo.equals(getString(R.string.carros))){
+            imagens = setCarros();
+        }else{
+            imagens = setCarros(); // Cartas
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_game_screen, menu);
         return true;
@@ -147,7 +156,6 @@ public class GameActivity extends AppCompatActivity {
         Animation animator = AnimationUtils.loadAnimation(this, R.anim.to_midle);
         view.setAnimation(animator);
         view.startAnimation(animator);
-
 
         switch (view.getId()){
             case R.id.btn_image_0x0:
@@ -198,7 +206,6 @@ public class GameActivity extends AppCompatActivity {
             case R.id.btn_image_3x3:
                 animationButton(view, imagens.get(15));
                 break;
-
             case R.id.btn_image_4x0:
                 animationButton(view, imagens.get(16));
                 break;
@@ -211,7 +218,6 @@ public class GameActivity extends AppCompatActivity {
             case R.id.btn_image_4x3:
                 animationButton(view, imagens.get(19));
                 break;
-
             case R.id.btn_image_5x0:
                 animationButton(view, imagens.get(20));
                 break;
@@ -228,47 +234,37 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void animationButton(final View view, final int color) {
+    private void animationButton(final View view, final int picture) {
         Handler handler = new Handler(getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                view.setBackgroundResource(color);
-                verifierColorButton(color, view);
+                view.setBackgroundResource(picture);
+                verifierColorButton(picture, view);
             }
         }, 300);
     }
 
-    public void verifierColorButton(int color, final View v){
+    public void verifierColorButton(int picture, final View v){
         if (countClick1 == -1) {
-            countClick1 = color;
+            countClick1 = picture;
             view = v;
             view.setClickable(false);
         }else {
-            countClick2 = color;
+            countClick2 = picture;
             if(countClick1 == countClick2){
                 countClick1 = -1;
                 countClick2 = -1;
                 view.setClickable(false);
                 v.setClickable(false);
                 totalAcertos +=2;
+
                 if (isEndGame()){
-                    Toast.makeText(getApplicationContext(),"venceu", Toast.LENGTH_SHORT).show();
-                    setDefaultButtonImageValue();
                     changeStatusViewButton(true);
-                    long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    chronometer.stop();
-                    chronometer.setActivated(false);
-
-
-                    tvScores.setText(String.valueOf(elapsedMillis));
+                    zerarChronometer();
                     isInit = true;
                     showFinishDialog();
-                    mRecord.setName("desconhecido");
-                    mRecord.setRecord(elapsedMillis);
-                    mRecord.save();
-
+                    registrarRecord();
                 }
             }else {
                 changeStatusViewButton(false);
@@ -288,10 +284,21 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void registrarRecord() {
+        mRecord.setRecord(elapsedMillis);
+        mRecord.save();
+    }
+
+    private void zerarChronometer() {
+        elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.stop();
+        chronometer.setActivated(false);
+        tvScores.setText(String.valueOf(elapsedMillis));
+    }
+
     public void setDefaultButtonImageValue(){
         Collections.shuffle(imagens);
-
-        int i = 0;
 
         for (int item = 0; item < tamanhoTabuleiro; item++) {
             ImageButton btnDefault = (ImageButton) findViewById(imageIds[item]);
@@ -322,7 +329,6 @@ public class GameActivity extends AppCompatActivity {
 
     public boolean isEndGame(){
         if (totalAcertos == tamanhoTabuleiro){
-
             return true;
         }else {
             return false;
@@ -331,15 +337,15 @@ public class GameActivity extends AppCompatActivity {
 
     public void showFinishDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Reiniciar Jogo?");
-        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.fim_de_jogo));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 setDefaultButtonImageValue();
                 mRecord = new Record();
             }
         });
-        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
@@ -357,53 +363,7 @@ public class GameActivity extends AppCompatActivity {
         tipoDeJogo = game;
     }
 
-    public ArrayList <Integer> setImags() {
-        ArrayList<Integer> imags = new ArrayList<>();
-
-        imags.add(Color.BLACK);
-        imags.add(Color.GREEN);
-        imags.add(Color.BLUE);
-        imags.add(Color.CYAN);
-        imags.add(Color.MAGENTA);
-        imags.add(Color.RED);
-        imags.add(Color.YELLOW);
-        imags.add(Color.DKGRAY);
-        imags.add(Color.BLACK);
-        imags.add(Color.GREEN);
-        imags.add(Color.BLUE);
-        imags.add(Color.CYAN);
-        imags.add(Color.MAGENTA);
-        imags.add(Color.RED);
-        imags.add(Color.YELLOW);
-        imags.add(Color.DKGRAY);
-
-        if(tamanhoTabuleiro > 16){
-            imags.add(Color.parseColor(getString(R.string.cor1)));
-            imags.add(Color.parseColor(getString(R.string.cor2)));
-            imags.add(Color.parseColor(getString(R.string.cor1)));
-            imags.add(Color.parseColor(getString(R.string.cor2)));
-
-            imBtn40.setVisibility(View.VISIBLE);
-            imBtn41.setVisibility(View.VISIBLE);
-            imBtn42.setVisibility(View.VISIBLE);
-            imBtn43.setVisibility(View.VISIBLE);
-
-            if(tamanhoTabuleiro > 20){
-                imags.add(Color.parseColor(getString(R.string.cor3)));
-                imags.add(Color.parseColor(getString(R.string.cor4)));
-                imags.add(Color.parseColor(getString(R.string.cor3)));
-                imags.add(Color.parseColor(getString(R.string.cor4)));
-
-                imBtn50.setVisibility(View.VISIBLE);
-                imBtn51.setVisibility(View.VISIBLE);
-                imBtn52.setVisibility(View.VISIBLE);
-                imBtn53.setVisibility(View.VISIBLE);
-            }
-        }
-        return imags;
-    }
-
-    public ArrayList <Integer> setTimes() {
+     public ArrayList <Integer> setTimes() {
         ArrayList<Integer> imags = new ArrayList<>();
 
         imags.add(R.drawable.saopaulo);

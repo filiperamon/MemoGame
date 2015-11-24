@@ -1,4 +1,4 @@
-package com.edu.fa7.memogame;
+package com.edu.fa7.memogame.Activity;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -16,6 +16,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+
+import com.edu.fa7.memogame.R;
 
 import java.util.List;
 

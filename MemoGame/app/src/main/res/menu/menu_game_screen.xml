@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="com.edu.fa7.memogame.MainSreen">
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.edu.fa7.memogame.Activity.MainScreenActivity">
     <item android:id="@+id/action_view_record"
         android:title="@string/st_records"
         android:orderInCategory="100"

@@ -21,9 +21,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:text="Item"
         android:id="@+id/tv_record"
-        android:layout_weight="1"
-        android:paddingBottom="16dp"/>
+        />
 
 </LinearLayout>
