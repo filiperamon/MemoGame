@@ -24,6 +24,7 @@
     <string name="cor4">#808000</string>
     <string name="times">times</string>
     <string name="carros">carros</string>
+    <string name="baralho">baralho</string>
     <string name="fim_de_jogo">Fim de jogo, deseja reiniciar Jogo?</string>
     <string name="yes">sim</string>
     <string name="no">não</string>

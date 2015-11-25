@@ -21,7 +21,6 @@ import android.widget.Chronometer;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edu.fa7.memogame.R;
 import com.edu.fa7.memogame.Utils.Record;
@@ -122,11 +121,13 @@ public class GameActivity extends AppCompatActivity {
 
     private void setImagensTabuleiro() {
         if (tipoDeJogo.equals(getString(R.string.times))) {
-            imagens = setTimes();
+            imagens = setTimes(); //Times
         }else if(tipoDeJogo.equals(getString(R.string.carros))){
-            imagens = setCarros();
+            imagens = setCarros(); //Carros
+        }else if(tipoDeJogo.equals(getString(R.string.baralho))){
+            imagens = setCartas(); // Cartas
         }else{
-            imagens = setCarros(); // Cartas
+            imagens = setTimes();
         }
     }
 
@@ -446,6 +447,51 @@ public class GameActivity extends AppCompatActivity {
                 imags.add(R.drawable.lambgallardo);
                 imags.add(R.drawable.pagani);
                 imags.add(R.drawable.pagani);
+
+                imBtn50.setVisibility(View.VISIBLE);
+                imBtn51.setVisibility(View.VISIBLE);
+                imBtn52.setVisibility(View.VISIBLE);
+                imBtn53.setVisibility(View.VISIBLE);
+            }
+        }
+
+        return imags;
+    }public ArrayList <Integer> setCartas() {
+        ArrayList<Integer> imags = new ArrayList<>();
+
+        imags.add(R.drawable.baralho_as);
+        imags.add(R.drawable.baralho_as);
+        imags.add(R.drawable.baralho_king);
+        imags.add(R.drawable.baralho_king);
+        imags.add(R.drawable.baralho_queen);
+        imags.add(R.drawable.baralho_queen);
+        imags.add(R.drawable.baralho_valete);
+        imags.add(R.drawable.baralho_valete);
+        imags.add(R.drawable.baralho_10);
+        imags.add(R.drawable.baralho_10);
+        imags.add(R.drawable.baralho_09);
+        imags.add(R.drawable.baralho_09);
+        imags.add(R.drawable.baralho_08);
+        imags.add(R.drawable.baralho_08);
+        imags.add(R.drawable.baralho_07);
+        imags.add(R.drawable.baralho_07);
+
+        if(tamanhoTabuleiro > 16){
+            imags.add(R.drawable.baralho_06);
+            imags.add(R.drawable.baralho_06);
+            imags.add(R.drawable.baralho_05);
+            imags.add(R.drawable.baralho_05);
+
+            imBtn40.setVisibility(View.VISIBLE);
+            imBtn41.setVisibility(View.VISIBLE);
+            imBtn42.setVisibility(View.VISIBLE);
+            imBtn43.setVisibility(View.VISIBLE);
+
+            if(tamanhoTabuleiro > 20){
+                imags.add(R.drawable.baralho_04);
+                imags.add(R.drawable.baralho_04);
+                imags.add(R.drawable.baralho_03);
+                imags.add(R.drawable.baralho_03);
 
                 imBtn50.setVisibility(View.VISIBLE);
                 imBtn51.setVisibility(View.VISIBLE);
